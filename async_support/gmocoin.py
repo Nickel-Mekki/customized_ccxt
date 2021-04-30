@@ -769,7 +769,6 @@ class gmocoin(Exchange):
         }
 
     def handle_errors(self, code, reason, url, method, headers, body, response, requestHeaders, requestBody):
-        print(code, reason, url, method, headers, body, response, requestHeaders, requestBody)
         if code == 200:
             status = self.safe_integer(response, 'status')
             if status == 0:
@@ -779,7 +778,7 @@ class gmocoin(Exchange):
                 error = self.safe_value(errors, 0, {})
                 error_code = self.safe_string(error, 'message_code')
                 error_message = self.safe_string(error, 'message_string')
-                raise self.exceptions[error_code]('Error: ' + self.id + ' ' + error_code + ' ' + error_message + requestBody)
+                raise self.exceptions[error_code]('Error: ' + self.id + ' ' + error_code + ' ' + error_message + str(requestBody))
         else:
             raise ExchangeError('Error: ' + self.id + ' ' + code + ' ' + body)
 
